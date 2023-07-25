@@ -6,9 +6,17 @@
 </template>
 
 <script setup lang="ts">
-import { User } from '@/types/user'
+import type { ObjectId } from "mongodb"
 
-definePageMeta({ middleware: 'auth' })
+interface User {
+  _id: ObjectId
+  userId: string
+  email: string
+  password: string
+  timezone: string
+}
+
+definePageMeta({ middleware: "auth" })
 
 const user = ref<User | null>(null)
 const loading = ref(true)
@@ -18,7 +26,7 @@ async function getUser() {
   try {
     user.value = await authUser()
   } catch (error) {
-    console.log('Error getting user')
+    console.log("Error getting user")
   }
   loading.value = false
 }
